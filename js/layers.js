@@ -39,7 +39,9 @@ addLayer("p", {
     }},
     tabFormat: [
       ["display-text", () => `You have ${format(player.points)} points<br><br>`],
-      "upgrades"
+      "upgrades",
+      "blank",
+      "buyables",
       ],
     color: "#FFFFFF",
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
@@ -56,9 +58,7 @@ addLayer("p", {
         return new Decimal(1)
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
+ 
     layerShown(){return true},
         upgrades: {
         11: {
@@ -100,9 +100,12 @@ addLayer("p", {
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
     tooltip:"Achievements+1^1.5"
         },
-        
+   
+
         
     },
+  
+    
 })
 addLayer("pr", {
     startData() { return {                  // startData is a function that returns default data for a layer. 
@@ -123,8 +126,13 @@ addLayer("pr", {
     type: "normal",                         // Determines the formula used for calculating prestige currency.
     exponent: 0.2,                          // "normal" prestige gain is (currency^exponent).
 
-    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
-        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+        gainMult() {
+        let mult = new Decimal(1)
+        if (hasUpgrade('pr', 21)) mult = mult.times(upgradeEffect('pr', 21))
+        	      if (hasUpgrade('pr', 22)) mult = mult.times(upgradeEffect('pr',22))
+        	      if (hasUpgrade('pr',23)) mult = mult.times(3)
+	
+        return mult
     },
     gainExp() {                             // Returns the exponent to your gain of the prestige resource.
         return new Decimal(1)
@@ -143,9 +151,9 @@ addLayer("pr", {
    12: {
     title: "Me when generic:",
     description: "So much genericness. Multiply point gain based on Prestige Points.",
-    cost: new Decimal(3),
+    cost: new Decimal(2),
         effect() {
-        return player[this.layer].points.add(1).pow(0.3)
+        return player[this.layer].points.add(3).pow(0.35)
     },
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
     tooltip:"PP+1^0.3"
@@ -153,7 +161,30 @@ addLayer("pr", {
      13: {
     title: "Unique stuff?",
     description: "Boost point gain based on prestige upgrades.",
-    cost: new Decimal(5),
+    cost: new Decimal(4),
     },
+    21: {
+       title: "Goofy upgrade again...",
+       description: "Boost Prestige Point gain based on Prestige Points.",
+       cost: new Decimal(6),
+           effect() {
+        return player[this.layer].points.add(1).pow(0.2)
+    },
+    effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
+    },
+    22: {
+      title: "Um, is this upgrade not repetitive?",
+      description: "Boost Prestige Point gain based on Achievements.",
+      cost: new Decimal(10),
+          effect() {
+     return player.a.points.add(1).pow(1.3);
+    },
+        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
+    },
+    23: {
+    title: "Why?",
+    description: "Multiply Prestige Point gain by 3.",
+      cost: new Decimal(75)
+    }
     }
 })
