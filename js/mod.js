@@ -1,6 +1,6 @@
 let modInfo = {
 	name: "The ??? Tree",
-	id: "mymod",
+	id: "cookina i changed my id",
 	author: "nobody",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
@@ -45,6 +45,10 @@ function getPointGen() {
 	let gain = new Decimal(1)
 	if (hasUpgrade('p', 11)) gain = gain.times(2)
 	    if (hasUpgrade('p', 12)) gain = gain.times(upgradeEffect('p', 12))
+	    if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p',13))
+	    if (hasUpgrade('pr', 11)) gain = gain.times(4)
+	    	    if (hasUpgrade('pr', 12)) gain = gain.times(upgradeEffect('pr',12))
+	    if (hasUpgrade('pr', 13)) gain = gain.times(player.pr.upgrades.length).add(1).pow(1.5)
 	return gain
 }
 
