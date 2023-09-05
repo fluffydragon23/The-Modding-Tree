@@ -74,9 +74,12 @@ addLayer("p", {
         doReset(layer){
       if(layer=="p")return
         let keep = []
-      if (layer=="a") {
-        if (hasAchievement("a", 14)) keep.push("upgrades")
-      }},
+        if (layer=="pr") {
+        if (hasMilestone("pr", 0)) keep.push("upgrades")
+      }
+          
+          layerDataReset("p", keep)
+        },
     
         upgrades: {
         11: {
@@ -205,6 +208,13 @@ addLayer("pr", {
     description: "Multiply Prestige Point gain by 3, and unlock a new layer.(colours)",
       cost: new Decimal(75)
     }
+    },
+    milestones: {
+      0: {
+        requirementDescription: "25 total prestige points.",
+        effectDescription: "Nice QoL, keep point upgrades on Row 2 resets.",
+        done() {return player.pr.points.gte(25)}
+      }
     }
 })
 addLayer("c", {
