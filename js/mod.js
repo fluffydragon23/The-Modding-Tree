@@ -51,7 +51,8 @@ function getPointGen() {
 	    	    
 	    	    
 	    	    if (hasUpgrade('pr', 13)) gain = gain.times(player.pr.upgrades.length).add(1).pow(1.3)
-	
+	if (hasUpgrade('c',11)) gain = gain.times(4)
+	  if (hasUpgrade('c', 13)) gain = gain.times(upgradeEffect('c',13))
 	    return gain
 }
 
