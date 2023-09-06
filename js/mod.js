@@ -53,7 +53,13 @@ function getPointGen() {
 	    	    if (hasUpgrade('pr', 13)) gain = gain.times(player.pr.upgrades.length).add(1).pow(1.3)
 	if (hasUpgrade('c',11)) gain = gain.times(4)
 	  if (hasUpgrade('c', 13)) gain = gain.times(upgradeEffect('c',13))
-	    return gain
+	  if (hasUpgrade('p', 21)) gain = gain.times(2.8)
+	    	  if (hasUpgrade('p', 23)) gain = gain.times(upgradeEffect('p',23))
+	    	    if (hasUpgrade('pr', 31)) gain = gain.times(upgradeEffect('pr',31))
+	 if (hasUpgrade('pr', 32)) gain = gain.times(4)
+	 if (inChallenge('c', 11)) gain = gain.pow(0.5)
+	 if (hasChallenge('c', 11)) gain = gain.times(100)
+	    	  return gain
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -62,12 +68,12 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-  "Endgame: e13 points"
+  "Endgame: e23 points"
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e13"))
+	return player.points.gte(new Decimal("1e23"))
 }
 
 

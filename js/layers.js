@@ -77,7 +77,9 @@ addLayer("p", {
         if (layer=="pr") {
         if (hasMilestone("pr", 0)) keep.push("upgrades")
       }
-          
+           if (layer=="c") {
+        if (hasMilestone("c", 0)) keep.push("upgrades")
+      }
           layerDataReset("p", keep)
         },
     
@@ -104,7 +106,7 @@ addLayer("p", {
         return player.points.add(1).pow(0.2)
     },
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
-    tooltip:"Points+1^0.2"
+    tooltip:"Points+1^0.2",
         },
           13: {
     title: "Wow, they are useful!",
@@ -121,8 +123,39 @@ addLayer("p", {
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
     tooltip:"Achievements+1^1.5"
         },
-   
-
+   21: {
+     title: "Point Upgrade 28",
+     description: "Multiply point gain by 2.8.",
+     cost: new Decimal(3e12),
+         currencyDisplayName: "points",
+    
+    currencyInternalName: "points",
+    unlocked(){return hasMilestone("c", 0)}
+   },
+22: {
+  title: "#AdvyOut",
+  description: "Advy is out, and so you get x2 Prestige Point multiplier.",
+  cost: new Decimal(1.5e13),
+      currencyDisplayName: "points",
+    
+    currencyInternalName: "points",
+    unlocked(){ return hasMilestone("c", 0)}
+},
+23: {
+  title: "Prestiged Upgrades",
+  description: "Unlock 3 new Prestige Upgrades, and multiply Point Gain based on Points. (again.)",
+ cost: new Decimal(3e13),
+     effect() {
+        return player.points.add(10).log(10)
+    },
+    effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+    currencyDisplayName: "points",
+    
+    currencyInternalName: "points",
+    unlocked(){ return hasMilestone("c", 0)}
+  
+ 
+}
         
     },
   
@@ -153,6 +186,7 @@ addLayer("pr", {
         	      if (hasUpgrade('pr', 22)) mult = mult.times(upgradeEffect('pr',22))
         	      if (hasUpgrade('pr',23)) mult = mult.times(3)
         	      if (hasUpgrade('c', 12)) mult = mult.times(3)
+        	      if (hasUpgrade('p', 22)) mult = mult.times(2)
 	
         return mult
     },
@@ -201,18 +235,34 @@ addLayer("pr", {
           effect() {
      return player.a.points.add(1).pow(1.3);
     },
-        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
+effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },  // Add formatting to the effect
     },
     23: {
     title: "Why?",
     description: "Multiply Prestige Point gain by 3, and unlock a new layer.(colours)",
       cost: new Decimal(75)
+    },
+    31: {
+      title: "It was broken, now it's fixed!",
+      description: "Multiply point gain based on Prestige Point.",
+      cost: new Decimal(4e6),
+      effect() {
+        return player[this.layer].points.add(10).log(10)
+    },
+    effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },  // Add formatting to the effect
+        unlocked(){ return hasUpgrade("p", 23)}
+    },
+    32: {
+      title: "Challenged.",
+      description: "Unlock 2 colour challenges, and multiply point gain by 4.",
+      cost: new Decimal(2e7),
+          unlocked(){ return hasUpgrade("p", 23)}
     }
     },
     milestones: {
       0: {
         requirementDescription: "25 total prestige points.",
-        effectDescription: "Nice QoL, keep point upgrades on Row 2 resets.",
+        effectDescription: "Nice QoL, keep point upgrades on Prestige Point resets.",
         done() {return player.pr.points.gte(25)}
       }
     }
@@ -270,4 +320,21 @@ addLayer("c", {
         },
         
     },
+    milestones: {
+      0: {
+        requirementDescription: "5 colours.",
+        effectDescription: "Unlock 3 point upgrades, and keep Point Upgrades on Colour resets.",
+           done() {return player.c.points.gte(5)}
+      }
+    },
+    challenges: {
+    11: {
+        name: "He stood rooted to the ground.",
+        challengeDescription: "Points are ^0.5.",
+        goalDescription: "Reach 1e8 points.",
+        rewardDescription: "Point gain is x100.",
+        canComplete: function() {return player.points.gte("1e8")},
+        unlocked(){return hasUpgrade("pr",32)}
+    },
+    }
 })
