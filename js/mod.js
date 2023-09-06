@@ -59,6 +59,7 @@ function getPointGen() {
 	 if (hasUpgrade('pr', 32)) gain = gain.times(4)
 	 if (inChallenge('c', 11)) gain = gain.pow(0.5)
 	 if (hasChallenge('c', 11)) gain = gain.times(100)
+	 if (hasUpgrade('pr', 33)) gain = gain.times(4)
 	    	  return gain
 }
 
@@ -68,12 +69,12 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-  "Endgame: e23 points"
+  "Endgame: e22 points"
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e23"))
+	return player.points.gte(new Decimal("1e22"))
 }
 
 

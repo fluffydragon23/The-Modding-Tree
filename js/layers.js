@@ -126,7 +126,7 @@ addLayer("p", {
    21: {
      title: "Point Upgrade 28",
      description: "Multiply point gain by 2.8.",
-     cost: new Decimal(3e12),
+     cost: new Decimal(2e12),
          currencyDisplayName: "points",
     
     currencyInternalName: "points",
@@ -135,7 +135,7 @@ addLayer("p", {
 22: {
   title: "#AdvyOut",
   description: "Advy is out, and so you get x2 Prestige Point multiplier.",
-  cost: new Decimal(1.5e13),
+  cost: new Decimal(1e13),
       currencyDisplayName: "points",
     
     currencyInternalName: "points",
@@ -143,8 +143,8 @@ addLayer("p", {
 },
 23: {
   title: "Prestiged Upgrades",
-  description: "Unlock 3 new Prestige Upgrades, and multiply Point Gain based on Points. (again.)",
- cost: new Decimal(3e13),
+  description: "Unlock 2 new Prestige Upgrades, and multiply Point Gain based on Points. (again.)",
+ cost: new Decimal(2.5e13),
      effect() {
         return player.points.add(10).log(10)
     },
@@ -254,9 +254,15 @@ effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },  // A
     },
     32: {
       title: "Challenged.",
-      description: "Unlock 2 colour challenges, and multiply point gain by 4.",
+      description: "Unlock 1 colour challenge and multiply point gain by 4.",
       cost: new Decimal(2e7),
           unlocked(){ return hasUpgrade("p", 23)}
+    },
+    33: {
+      title: "Generic Upgrade Time!",
+      description: "Multiply point gain by 4.5",
+      cost: new Decimal(3e8),
+         unlocked(){ return hasChallenge("c", 11)}
     }
     },
     milestones: {
@@ -332,7 +338,7 @@ addLayer("c", {
         name: "He stood rooted to the ground.",
         challengeDescription: "Points are ^0.5.",
         goalDescription: "Reach 1e8 points.",
-        rewardDescription: "Point gain is x100.",
+        rewardDescription: "Point gain is x100, and unlock a new PU.",
         canComplete: function() {return player.points.gte("1e8")},
         unlocked(){return hasUpgrade("pr",32)}
     },
