@@ -187,6 +187,7 @@ addLayer("pr", {
         	      if (hasUpgrade('pr',23)) mult = mult.times(3)
         	      if (hasUpgrade('c', 12)) mult = mult.times(3)
         	      if (hasUpgrade('p', 22)) mult = mult.times(2)
+        	      if (hasUpgrade('c', 22)) mult = mult.times(upgradeEffect('c',22))
 	
         return mult
     },
@@ -260,7 +261,7 @@ effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },  // A
     },
     33: {
       title: "Generic Upgrade Time!",
-      description: "Multiply point gain by 4.5",
+      description: "Multiply point gain by 4.5, and unlock 3 new colour upgrades.",
       cost: new Decimal(3e8),
          unlocked(){ return hasChallenge("c", 11)}
     }
@@ -311,19 +312,46 @@ addLayer("c", {
          
         },
         12: {
-          title: "Blue.",
+          title: "Orange.",
           description: "Multiply Prestige Point gain by 3.",
           cost: new Decimal(3)
         },
         13: {
-          title: "Green",
+          title: "Yellow.",
           description: "Uh, multiply point gain based on Colours.",
           cost: new Decimal(4),
               effect() {
-        return player[this.layer].points.add(1).pow(1.3)
+        return player[this.layer].points.add(1).pow(1.35)
     },
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
         },
+        21: {
+          title: "Green.",
+          description: "Multiply point gain based on points.",
+          cost: new Decimal(10),
+                effect() {
+        return player.points.add(3).log(1.9)
+    },
+    effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+    unlocked(){ return hasUpgrade("pr", 33)}
+        },
+        22:{
+          title: "Blue",
+          description: "Multiply prestige point gain based on Points.",
+          cost: new Decimal(11),
+                effect() {
+        return player.points.add(10).log(15)
+    },
+    effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+     unlocked(){ return hasUpgrade("pr", 33)}
+        },
+        23: {
+          title: "Violet.",
+          description: "I need a boost! Multiply point gain by 24.",
+          cost: new Decimal(12),
+              unlocked(){ return hasUpgrade("pr", 33)}
+        }
+        
         
     },
     milestones: {

@@ -13,12 +13,12 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.6",
+	name: "A bit more content",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
+	<h3>v0.6</h3><br>
 		- Added things.<br>
 		- Added stuff.`
 
@@ -59,7 +59,9 @@ function getPointGen() {
 	 if (hasUpgrade('pr', 32)) gain = gain.times(4)
 	 if (inChallenge('c', 11)) gain = gain.pow(0.5)
 	 if (hasChallenge('c', 11)) gain = gain.times(100)
-	 if (hasUpgrade('pr', 33)) gain = gain.times(4)
+	 if (hasUpgrade('pr', 33)) gain = gain.times(4.5)
+	  if (hasUpgrade('c', 21)) gain = gain.times(upgradeEffect('c',21))
+	  if (hasUpgrade('c', 23)) gain = gain.times(24)
 	    	  return gain
 }
 
@@ -69,12 +71,12 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-  "Endgame: e22 points"
+  "Endgame: 2e30 points"
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e22"))
+	return player.points.gte(new Decimal("2e30"))
 }
 
 
