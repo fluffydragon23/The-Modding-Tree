@@ -69,10 +69,10 @@ Now that you know how to make a simple upgrade, let's make a more interesting on
 Copying things is often the easiest way to do things, so copy upgrade 11 and paste it afterwards. Replace the 11 with a 12, and change the name and description as you see fit, and bump the cost up to 2. Now, let's add an effect. effect is a function that calculates the bonus from an upgrade, and effectDisplay lets you display the effect. 
 
 ```js
- 11: {
-        title: "New layer?",
-        description: "Ah, new boosts. Multiply point gain by 4.",
-        cost: new Decimal(1)
+    effect() {
+        return player[this.layer].points.add(1).pow(0.5)
+    },
+    effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
 ```
 
 this.layer and this.id are automatically set to the layer that the upgrade is in, and the id of the upgrade (in this case "12"). Using them makes it much easier to reuse code. You can also see that player[this.layer].points gets the prestige currency amount for this layer.
