@@ -25,7 +25,7 @@ achievements: {
     12:{
   name: "First prestige layer.",
   done() {return player.pr.points.gte(1)},
-  tooltip:"Get 1 prestige point."
+  tooltip:"Get 1000 prestige point."
   },
   13: {
     name: "large-candied-danger",
